@@ -194,4 +194,8 @@ h1 {
     .container {
         min-width: 100%;
     }
+
+    .hidden {
+        display: none !important;
+    }
 }
