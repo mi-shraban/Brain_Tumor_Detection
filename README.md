@@ -95,7 +95,3 @@ If you run out of GPU memory:
 ```bash
 pip install -r requirements.txt
 ```
-
-## Acknowledgments
-
-- Dataset: [Masoud Nickparvar - Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset)
