@@ -1,14 +1,10 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
-
-setuptools>=70.0.0
-numpy>=1.26.0
-scikit-learn>=1.4.0
-pillow>=10.0.0
-torch==2.2.0+cpu
-torchvision==0.17.0+cpu
-keras>=3.0.0
-opencv-python-headless>=4.9.0
 fastapi==0.104.1
 uvicorn==0.24.0
 python-multipart==0.0.6
 jinja2==3.1.2
+numpy>=1.26.0
+pillow==10.1.0
+torch==2.2.0
+torchvision==0.17.0
+opencv-python-headless>=4.9.0
