@@ -9,10 +9,7 @@ python -m venv venv
 ```
 3. Acitvate venv
 ```bash
-# Windows:
 venv\Scripts\activate
-# Linux:
-source venv/bin/activate
 ```
 4. Install dependencies:
 ```bash
@@ -22,4 +19,5 @@ pip install -r requirements.txt
 ```bash
 uvicorn api.index:app --reload
 ```
+
 
