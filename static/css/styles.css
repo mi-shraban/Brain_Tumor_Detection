@@ -43,12 +43,12 @@ h1 {
     margin-bottom: 10px;
 }
 
-link {
+.link {
     color: var(--primary);
     text-decoration: none;
 }
 
-link:hover {
+.link:hover {
     text-decoration: underline;
 }
 
