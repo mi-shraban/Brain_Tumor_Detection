@@ -2,15 +2,16 @@
 FastAPI-based web application for detecting brain tumors from MRI scan photos.
 
 ## Local Development ##
-1. Create python virtual environment
+1. Clone the repo
+2. Create python virtual environment
 ```bash
 python -m venv venv
 ```
-2. Install Vercel CLI:
+3. Install Vercel CLI:
 ```bash
 pip install -r requirements.txt
 ```
-3. Run the App:
+4. Run the App:
 ```bash
 uvicorn api.index:app --reload
 ```
@@ -112,6 +113,7 @@ If you run out of GPU memory:
 ```bash
 pip install -r requirements.txt
 ```
+
 
 
 
