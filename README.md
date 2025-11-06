@@ -1,4 +1,4 @@
-# Brain Tumor Detector from MRI Scans
+# Brain Tumor Detector Training & Tesing
 
 A CNN-based deep learning model to classify brain MRI scans into 4 categories: No Tumor, Glioma, Meningioma, and Pituitary tumor.
 
@@ -95,4 +95,5 @@ If you run out of GPU memory:
 ```bash
 pip install -r requirements.txt
 ```
+
 
