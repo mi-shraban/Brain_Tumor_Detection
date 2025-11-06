@@ -1,3 +1,20 @@
+# Brain Tumor Detector Web App
+FastAPI-based web application for detecting brain tumors from MRI scan photos.
+
+## Local Development ##
+1. Create python virtual environment
+```bash
+python -m venv venv
+```
+2. Install Vercel CLI:
+```bash
+pip install -r requirements.txt
+```
+3. Run the App:
+```bash
+uvicorn api.index:app --reload
+```
+
 # Brain Tumor Detector Training & Tesing
 
 A CNN-based deep learning model to classify brain MRI scans into 4 categories: No Tumor, Glioma, Meningioma, and Pituitary tumor.
@@ -95,5 +112,6 @@ If you run out of GPU memory:
 ```bash
 pip install -r requirements.txt
 ```
+
 
 
