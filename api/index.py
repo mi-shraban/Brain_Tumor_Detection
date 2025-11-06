@@ -2,20 +2,18 @@ from fastapi import FastAPI, File, UploadFile, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import torch
-import torch.nn as nn
 import numpy as np
 import cv2
 import io
 from PIL import Image
 import sys
 import os
+import onnxruntime as ort
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from models.cnn_model import CNN
-from utils.preprocessing import preprocess_image
+from utils.preprocessing import preprocess_image_onnx
 
 app = FastAPI(title="Brain Tumor Detector API")
 
@@ -23,21 +21,19 @@ app = FastAPI(title="Brain Tumor Detector API")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# Device configuration
-device = torch.device('cpu')  # Vercel doesn't support GPU
-
-# Load model
-model = None
+# Load ONNX model
+ort_session = None
 
 
 def load_model():
-	global model
-	if model is None:
-		model = CNN().to(device)
-		checkpoint = torch.load('tumor_detector.pth', map_location=device)
-		model.load_state_dict(checkpoint['model_state_dict'])
-		model.eval()
-	return model
+	global ort_session
+	if ort_session is None:
+		# Load ONNX model
+		ort_session = ort.InferenceSession(
+			'tumor_detector.onnx',
+			providers=['CPUExecutionProvider']  # Vercel only supports CPU
+		)
+	return ort_session
 
 
 # Label mapping
@@ -47,6 +43,12 @@ LABELS = {
 	2: 'Meningioma',
 	3: 'Pituitary'
 }
+
+
+def softmax(x):
+	"""Compute softmax values for array x"""
+	exp_x = np.exp(x - np.max(x, axis=1, keepdims=True))
+	return exp_x / np.sum(exp_x, axis=1, keepdims=True)
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -68,24 +70,31 @@ async def predict(file: UploadFile = File(...)):
 		# Convert PIL Image to numpy array
 		img_array = np.array(image)
 
-		# Preprocess image
-		processed_img = preprocess_image(img_array, device)
+		# Preprocess image (returns numpy array for ONNX)
+		processed_img = preprocess_image_onnx(img_array)
 
 		# Load model and predict
-		model = load_model()
+		session = load_model()
 
-		with torch.no_grad():
-			output = model(processed_img)
-			probabilities = torch.softmax(output, dim=1)
-			pred_idx = torch.argmax(probabilities, dim=1).item()
-			confidence = probabilities[0][pred_idx].item()
+		# Run inference
+		input_name = session.get_inputs()[0].name
+		output_name = session.get_outputs()[0].name
+
+		ort_inputs = {input_name: processed_img}
+		ort_outputs = session.run([output_name], ort_inputs)
+
+		# Get predictions
+		output = ort_outputs[0]
+		probabilities = softmax(output)
+		pred_idx = np.argmax(probabilities, axis=1)[0]
+		confidence = probabilities[0][pred_idx]
 
 		# Prepare response
 		result = {
 			"prediction": LABELS[pred_idx],
 			"confidence": float(confidence),
 			"probabilities": {
-				LABELS[i]: float(probabilities[0][i].item())
+				LABELS[i]: float(probabilities[0][i])
 				for i in range(4)
 			}
 		}
@@ -102,4 +111,4 @@ async def predict(file: UploadFile = File(...)):
 @app.get("/health")
 async def health_check():
 	"""Health check endpoint"""
-	return {"status": "healthy"}
+	return {"status": "healthy", "model_type": "ONNX"}

@@ -4,21 +4,21 @@ FastAPI-based web application for detecting brain tumors from MRI scan photos.
 ## Local Development ##
 1. Clone the repo
 2. Create python virtual environment
-```bash
-python -m venv venv
-```
+    ```bash
+    python -m venv venv
+    ```
 3. Acitvate venv
-```bash
-venv\Scripts\activate
-```
+    ```bash
+    venv\Scripts\activate
+    ```
 4. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 5. Run the App:
-```bash
-uvicorn api.index:app --reload
-```
+    ```bash
+    uvicorn api.index:app --reload
+    ```
 
 # Brain Tumor Detector Training & Testing
 
@@ -71,19 +71,10 @@ tumor_env\Scripts\activate
 source tumor_env/bin/activate
 ```
 
-#### Using conda (Recommended for GPU support)
-```bash
-# Create conda environment
-conda create -n tumor_env python=3.11
-
-# Activate environment
-conda activate tumor_env
-```
-
 ### 2. Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install -r training_requirements.txt
 ```
 
 ### 3. GPU Support (Optional but Recommended)
@@ -112,9 +103,4 @@ If you get "CUDA error: device-side assert triggered":
 If you run out of GPU memory:
 - Reduce batch size from 32 to 16 or 8
 - Reduce number of epochs
-
-### Module Not Found Errors
-```bash
-pip install -r requirements.txt
-```
 
