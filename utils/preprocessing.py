@@ -4,11 +4,9 @@ from PIL import Image
 
 def preprocess_image_onnx(image: Image.Image):
 	"""
-	Preprocesses a PIL Image object for ONNX inference without using OpenCV.
-
+	Preprocesses a PIL Image object for ONNX inference.
 	Args:
 		image: A PIL Image object (e.g., from Image.open(io.BytesIO(bytes))).
-
 	Returns:
 		A numpy array ready for ONNX inference (shape: 1, C, H, W).
 	"""
