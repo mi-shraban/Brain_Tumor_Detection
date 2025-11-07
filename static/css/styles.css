@@ -18,7 +18,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(90deg, var(--darkeraccent), var(--primary));
+    background: linear-gradient(135deg, var(--darkeraccent), var(--primary));
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -30,7 +30,10 @@ body {
     background: var(--border);
     color: var(--text);
     border-radius: 20px;
-    border: 4px solid var(--darkeraccent);
+    border-bottom: 4px solid var(--darkeraccent);
+    border-right: 4px solid var(--darkeraccent);
+	border-left: 4px solid var(--primary);
+    border-top: 4px solid var(--primary);
     padding: 40px;
     max-width: 70%;
     width: 100%;
